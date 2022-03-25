@@ -3,6 +3,7 @@
 # proses each frame
 
 import cv2
+import numpy as np
 
 
 def show_image(image, title="debug"):
@@ -31,7 +32,7 @@ def frame_capture():
     print("start")
 
     # give this as arguments
-    file_path = "dev_video.mp4"
+    file_path = "./invention_test_videos/nk_S_0.MOV"
     sample_frequency = 1
 
     # open the video
@@ -45,7 +46,8 @@ def frame_capture():
     count = 0
     frame_sample_frequency = int(video.get(cv2.CAP_PROP_FPS) / sample_frequency)
     for frame_index in range(0, int(total_frames), frame_sample_frequency):
-        video.set(1, frame_index)
+        frame_no = window(video, frame_sample_frequency, frame_index)
+        video.set(1, frame_no)
         is_successful, frame = video.read()
         if is_successful:
             count += 1
@@ -56,5 +58,33 @@ def frame_capture():
     print("frame total", count)
     print("end")
 
+def window(video, sample_frequency, frame):
+    total_frames = video.get(cv2.CAP_PROP_FRAME_COUNT)
+    left = frame - (sample_frequency/2) if frame - (sample_frequency/2) > 0 else 0
+    right = frame + (sample_frequency/2) if frame + (sample_frequency/2) < total_frames - 1 else total_frames
+    curr_frame_number = left + 1
+    lowest_movement = left
+    smallest = 99999999999
+    video.set(1, left)
+    success, curr_frame = video.read()
+    while curr_frame_number <= right:
+        video.set(1, curr_frame_number)
+        last_frame = curr_frame
+        success, curr_frame = video.read()
+        if success:
+            temp_diff = temporal(last_frame, curr_frame)
+            if np.sum(temp_diff) < smallest:
+                lowest_movement = curr_frame_number
+                smallest = np.sum(temp_diff)
+        else:
+            break
+    
+        curr_frame_number += 1
+        
+    return lowest_movement
+            
+
+def temporal(frameL, frameC):
+    return frameL - frameC
 
 frame_capture()
