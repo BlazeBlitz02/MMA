@@ -14,18 +14,18 @@ from pathlib import Path
 import numpy as np
 import csv
 
-# folder = "/Users/mac/Desktop/MMA/image_folders/aaf"
-# db_folder = "/Users/mac/Desktop/MMA/database"
-# db_name = "checking"
+folder = "/Users/mac/Desktop/MMA/image_folders/aaf"
+db_folder = "/Users/mac/Desktop/MMA/database"
+db_name = "checking"
 
-print("image folder to compute database")
-folder = input()
+# print("image folder to compute database")
+# folder = input()
 
-print("database folder:")
-db_folder = input()
+# print("database folder:")
+# db_folder = input()
 
-print("database name:")
-db_name = input()
+# print("database name:")
+# db_name = input()
 
 # database path
 db_path = db_folder + "/" + db_name + ".txt"
@@ -64,4 +64,5 @@ with open(db_path, 'w', encoding='UTF8', newline='') as f:
         # for debuging purpose
         cnt += 1
         print("written",cnt,"/",len(data),":",name)
+
 

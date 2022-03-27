@@ -35,10 +35,14 @@ def read_database(db_path):
 
     with open(db_path,'r') as f:
         # the number of descriptors
-        n = int(f.readline())
+        line_content = f.readline()
+        n = int(line_content)
+
+        print("number of descriptors",n)
 
         for i in range(n):
-            contents = f.readline().split(" ")
+            line_content = f.readline()
+            contents = line_content.split(" ")
             # name of the descriptor
             name = contents[0]
 
@@ -48,9 +52,10 @@ def read_database(db_path):
 
             desc = []
             for j in range(row):
-                values = list(map(float, f.readline().split(" ")))
+                values = list(map(np.float32, f.readline().split(" ")))
                 desc.append(values)
 
+            desc = np.array(desc)
             res.append([name, desc])
 
 
