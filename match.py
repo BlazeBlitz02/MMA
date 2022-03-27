@@ -1,6 +1,6 @@
 from dis import dis
 from threading import current_thread
-import make_database.utils as db_utils
+import database.utils as db_utils
 from compute_descriptor import *
 import cv2 
 import numpy as np
@@ -12,6 +12,8 @@ current_database_path = ""
 # output: a list from [image, distance]
 def sift_match(image, database_path, num_best_match = 10):
     global global_descriptors
+    global current_database_path
+
     if (global_descriptors is None or current_database_path != database_path):
         current_database_path = database_path
         global_descriptors = db_utils.read_database(database_path)
@@ -38,13 +40,6 @@ def sift_match(image, database_path, num_best_match = 10):
 
         res.append([name, sum_])
 
+    res.sort(key = lambda x : x[1])
     return res
     pass
-
-
-
-db_path = "/Users/mac/Desktop/MMA/database/checking.txt"
-im_path = "/Users/mac/Desktop/MMA/image_folders/agi/agi_r_xx_n_w_canal.jpg"
-image = cv2.imread(im_path)
-
-print(sift_match(image, db_path))
