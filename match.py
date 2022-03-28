@@ -10,7 +10,7 @@ current_database_path = ""
 
 # input: an image frame, database path
 # output: a list from [image, distance]
-def sift_match(image, database_path, num_best_match = 10):
+def sift_match(image, database_path, num_best_match = 40):
     global global_descriptors
     global current_database_path
 
@@ -40,6 +40,7 @@ def sift_match(image, database_path, num_best_match = 10):
 
         res.append([name, sum_])
 
+    # smaller the distance, the better
     res.sort(key = lambda x : x[1])
     return res
     pass

@@ -11,7 +11,7 @@ def sift_descriptor(image):
     kp, des = sift.detectAndCompute(image, None)
 
     # define the number of best descriptor
-    n_desc = 500 
+    n_desc = 500
 
     # extract the response for selecting only the best keypoints
     indices = np.argsort(list(map(lambda x : x.response, kp)))[-n_desc:]
