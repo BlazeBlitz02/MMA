@@ -19,6 +19,9 @@ db_path = "database/db.txt"
 accuracy = 0
 for image in images:
 
+    if (image[0] == ".DS_Store"):
+        continue
+
     cont = image[1]
     match_list = match.sift_match(cont, db_path)
 
@@ -28,5 +31,5 @@ for image in images:
 
     if (name == pred):
         accuracy += 1
-    print(name, pred, "accuracy =", accuracy)
+    print(name, pred, "accuracy =", accuracy / len(images))
     pass

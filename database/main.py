@@ -34,6 +34,10 @@ data = []
 # compute descriptor for each image
 for item in images:
     (name, image) = item
+    if (name == ".DS_Store"):
+        continue
+
+    print("processing",name)
     kp, des = compute_descriptor.sift_descriptor(image)
 
     data.append([name, des])
